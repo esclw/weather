@@ -4,6 +4,6 @@
     <list>
         <mapping class="com.example.administrator.weather.db.Province"></mapping>
         <mapping class="com.example.administrator.weather.db.City"></mapping>
-        <mapping class="com.example.administrator.weather.db.County"></mapping>
+        <mapping class="com.example.administrator.weather.db.Country"></mapping>
     </list>
 </litepal>
