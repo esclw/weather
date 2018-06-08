@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.administrator.weather.MainActivity;
 import com.example.administrator.weather.R;
 import com.example.administrator.weather.WeatherActivity;
 import com.example.administrator.weather.db.City;
@@ -86,6 +87,7 @@ public class ChooseAreaFragment extends Fragment {
         backbutton = (Button)view.findViewById(R.id.back_button);
         listView = (ListView)view.findViewById(R.id.list_view);
         adapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,dataList);
+        listView.setAdapter(adapter);
         return view;
    }
 
@@ -103,10 +105,17 @@ public class ChooseAreaFragment extends Fragment {
                     queryCountries();
                 }else if(currentLevel ==LEVEL_COUNTRY){
                     String weatherId=countryList.get(position).getWeatherId();
-                    Intent intent=new Intent(getActivity(), WeatherActivity.class);
-                    intent.putExtra("weather_id",weatherId);
-                    startActivity(intent);
-                    getActivity().finish();
+                    if (getActivity() instanceof MainActivity) {
+                        Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                        intent.putExtra("weather_id", weatherId);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }else if(getActivity() instanceof  WeatherActivity){
+                        WeatherActivity activity=(WeatherActivity) getActivity();
+                        activity.drawerLayout.closeDrawers();
+                        activity.swipeRefresh.setRefreshing(true);
+                        activity.requestWeather(weatherId);
+                    }
                 }
             }
         });
@@ -143,7 +152,7 @@ public class ChooseAreaFragment extends Fragment {
     private void queryCities(){
         titleText.setText(selectedProvince.getProvinceName());
         backbutton.setVisibility(View.VISIBLE);
-        cityList = DataSupport.where("provinceid=?",String.valueOf(selectedProvince.getId())).find(City.class);
+        cityList = DataSupport.where("provinceid = ?",String.valueOf(selectedProvince.getId())).find(City.class);
         if (cityList.size()>0){
             dataList.clear();
             for (City city : cityList){
@@ -172,7 +181,7 @@ public class ChooseAreaFragment extends Fragment {
             }
             adapter.notifyDataSetChanged();
             listView.setSelection(0);
-            currentLevel=LEVEL_CITY;
+            currentLevel=LEVEL_COUNTRY;
         }else{
             int provinceCode=selectedProvince.getProvinceCode();
             int cityCode=selectedCity.getCityCode();

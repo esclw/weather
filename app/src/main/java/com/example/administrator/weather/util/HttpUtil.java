@@ -7,6 +7,9 @@ import okhttp3.Request;
  * Created by Administrator on 2018/6/3.
  */
 
+/**
+ * 和服务器进行交互
+ */
 public class HttpUtil {
     public static void sendOkHttpRequest(String address,okhttp3.Callback callback){
         OkHttpClient client = new OkHttpClient();

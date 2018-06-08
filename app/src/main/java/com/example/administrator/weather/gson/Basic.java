@@ -7,7 +7,9 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class Basic {
-
+    /**
+     *  SerializedName注解来让JSON字段和JAVA字段建立映射关系
+     */
     @SerializedName("city")
     public String cityName;
 

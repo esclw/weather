@@ -16,6 +16,9 @@ import org.json.JSONObject;
  * Created by Administrator on 2018/6/3.
  */
 
+/**
+ * 解析和处理服务器返回的数据
+ */
 public class Utility {
     public static boolean handleProvinceResponse(String response) {
         if (!TextUtils.isEmpty(response)) {
